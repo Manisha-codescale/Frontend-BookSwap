@@ -11,6 +11,8 @@ import DashBoardScreen from './src/screens/DashBoardScreen';
 import AddedBooksScreen from './src/screens/AddedBooksScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
+import BookScreen from './src/screens/BookScreen';
+import ChangePasswordScreen from './src/screens/ChangePasswordScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -52,6 +54,8 @@ const App = () => {
         <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{headerShown: false}} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{headerShown: false}} />
         <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{headerShown: false}} />
+        <Stack.Screen name="BookScreen" component={BookScreen} options={{headerShown: false}} />
+        <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
     

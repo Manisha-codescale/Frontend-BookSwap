@@ -27,61 +27,61 @@ const SignInScreen = () => {
   const navigation = useNavigation();
   const [isInProgress, setIsInProgress] = useState(false);
 
-  //  const onGoogleSignIn = async () => {
-  //   setIsInProgress(true);
-  //   try {
-  //     await onGoogleButtonPress();
-  //     console.log('Signed in with Google!');
-  //     navigation.navigate('TabNavigator');
-  //   } catch (err) {
-  //     console.log('Google sign-in error!');
-  //     Alert.alert('Error ', err.message);
-  //   } finally {
-  //     setIsInProgress(false);
-  //   }
-  // };
-
-  // async function onGoogleButtonPress() {
-  //   await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-  //   const signInResult = await GoogleSignin.signIn();
-  //   let idToken = signInResult.data?.idToken;
-  //   if (!idToken) {
-  //     idToken = signInResult.idToken;
-  //   }
-  //   if (!idToken) {
-  //     throw new Error('No ID token found');
-  //   }
-
-  //   const googleCredential = auth.GoogleAuthProvider.credential(
-  //     signInResult.data.idToken,
-  //   );
-  //   return auth().signInWithCredential(googleCredential);
-  // }
+   const onGoogleSignIn = async () => {
+    setIsInProgress(true);
+    try {
+      await onGoogleButtonPress();
+      console.log('Signed in with Google!');
+      navigation.navigate('TabNavigator');
+    } catch (err) {
+      console.log('Google sign-in error!');
+      Alert.alert('Error ', err.message);
+    } finally {
+      setIsInProgress(false);
+    }
+  };
 
   async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-    // Get the users ID token
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
     const signInResult = await GoogleSignin.signIn();
-  
-    // Try the new style of google-sign in result, from v13+ of that module
-    idToken = signInResult.data?.idToken;
+    let idToken = signInResult.data?.idToken;
     if (!idToken) {
-      // if you are using older versions of google-signin, try old style result
       idToken = signInResult.idToken;
     }
     if (!idToken) {
       throw new Error('No ID token found');
     }
-  
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(signInResult.data.idToken);
-  
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
-    navigation.navigate('TabNavigator');
 
+    const googleCredential = auth.GoogleAuthProvider.credential(
+      signInResult.data.idToken,
+    );
+    return auth().signInWithCredential(googleCredential);
   }
+
+  // async function onGoogleButtonPress() {
+  //   // Check if your device supports Google Play
+  //   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  //   // Get the users ID token
+  //   const signInResult = await GoogleSignin.signIn();
+  
+  //   // Try the new style of google-sign in result, from v13+ of that module
+  //   idToken = signInResult.data?.idToken;
+  //   if (!idToken) {
+  //     // if you are using older versions of google-signin, try old style result
+  //     idToken = signInResult.idToken;
+  //   }
+  //   if (!idToken) {
+  //     throw new Error('No ID token found');
+  //   }
+  
+  //   // Create a Google credential with the token
+  //   const googleCredential = auth.GoogleAuthProvider.credential(signInResult.data.idToken);
+  
+  //   // Sign-in the user with the credential
+  //   return auth().signInWithCredential(googleCredential);
+  //   navigation.navigate('TabNavigator');
+
+  // }
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -173,8 +173,9 @@ const SignInScreen = () => {
 
       <TouchableOpacity
         style={styles.googleContent}
-        onPress={ () => onGoogleButtonPress().then(() => console.log('Signed in with Google!')) }
-          //   setIsInProgress(true);
+        // onPress={ () => onGoogleButtonPress().then(() => console.log('Signed in with Google!')) }
+        onPress={ onGoogleSignIn }
+            // setIsInProgress(true);
           //   try {
           //     await onGoogleButtonPress();
           //     console.log('Signed in with Google!');
