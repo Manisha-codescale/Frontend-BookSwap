@@ -27,7 +27,7 @@ const ProfileScreen = () => {
         <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      <TouchableOpacity onPress={() => navigation.navigate('changePasswordScreen')}
         style={[styles.button, styles.secondaryButton]}>
         <Text style={styles.buttonText}>Change Password</Text>
       </TouchableOpacity>
