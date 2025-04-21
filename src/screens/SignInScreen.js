@@ -83,8 +83,8 @@ const SignInScreen = () => {
 
   // }
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('sam@gmail.com');
+  const [password, setPassword] = useState('1998Mani');
   const onLogin = () => {
     if (!email || !password) {
       Alert.alert('Error', 'Please enter email and password');

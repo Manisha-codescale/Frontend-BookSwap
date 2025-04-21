@@ -13,6 +13,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import BookScreen from './src/screens/BookScreen';
 import ChangePasswordScreen from './src/screens/ChangePasswordScreen';
+import EditBookScreen from './src/screens/EditBookScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -56,9 +57,9 @@ const App = () => {
         <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{headerShown: false}} />
         <Stack.Screen name="BookScreen" component={BookScreen} options={{headerShown: false}} />
         <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{headerShown: false}} />
+        <Stack.Screen name="EditBookScreen" component={EditBookScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
-    
   );
 };
 
