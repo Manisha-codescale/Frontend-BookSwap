@@ -5,14 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import styles from '../styles/SignUpStyles.js';
 //import {auth, createUserWithEmailAndPassword} from '../firebaseConfig.js';
-import auth from "@react-native-firebase/auth";
-import {
-  createStaticNavigation,
-  useNavigation,
-} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import {createStaticNavigation, useNavigation} from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const SignUpScreen = () => {
@@ -20,16 +19,17 @@ const SignUpScreen = () => {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [age, setAge] = useState('');
+  const [date_of_birth, setDate_of_birth] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSignUp = async () => {
     // navigation.navigate('TabNavigator');
     if (
       name === '' ||
       email === '' ||
-      age === '' ||
+      date_of_birth === '' ||
       password === '' ||
       confirmPassword === ''
     ) {
@@ -40,16 +40,23 @@ const SignUpScreen = () => {
       alert('Passwords do not match!');
       return;
     }
-    
-    auth().createUserWithEmailAndPassword(email,password)
-    .then(() => {
-      console.log('User account created & signed in!');
-      alert('User account created & signed in!');
-    })
-    .catch(error => {
-      alert(error.message);
-    })
-    
+
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log('User account created & signed in!');
+        alert('User account created & signed in!');
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false); // Close the picker
+    if (selectedDate) {
+      setDate_of_birth(selectedDate.toISOString().split('T')[0]);
+    }
   };
 
   return (
@@ -70,12 +77,20 @@ const SignUpScreen = () => {
         onChangeText={setEmail}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Age"
-        value={age}
-        onChangeText={setAge}
-      />
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
+        style={styles.dateInput}>
+        <Text>{date_of_birth || `Select date`}</Text>
+      </TouchableOpacity>
+
+      {showDatePicker && (
+        <DateTimePicker
+          value={date_of_birth ? new Date(date_of_birth) : new Date()} // Default to selected date or today
+          mode="date"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={handleDateChange} 
+        />
+      )}
 
       <TextInput
         style={styles.input}
@@ -97,10 +112,14 @@ const SignUpScreen = () => {
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
-      <Text style={styles.signInText} onPress ={() => navigation.navigate('SignInScreen')}>
+      <Text
+        style={styles.signInText}
+        onPress={() => navigation.navigate('SignInScreen')}>
         Already have an account? <Text style={styles.signInLink}>Sign In</Text>
       </Text>
-      <Text style={styles.signInText} onPress ={() => navigation.navigate('ResetPasswordScreen')}>
+      <Text
+        style={styles.signInText}
+        onPress={() => navigation.navigate('ResetPasswordScreen')}>
         Forgot Password? <Text style={styles.signInLink}>Reset Password</Text>
       </Text>
     </ScrollView>
