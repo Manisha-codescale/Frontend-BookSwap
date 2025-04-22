@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { BASEURL } from '@env';
+//import { BASEURL } from '@env';
+import {BASEURL} from './apis';
 
 const axiosUserInstance = axios.create({
   baseURL: `${BASEURL}/users`,
