@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {BASEURL} from '@env';
+// import {BASEURL} from '@env';
+import {BASEURL} from './apis';
 
 export const axiosBookInstance = axios.create({
   baseURL: `${BASEURL}/api/book`,
@@ -20,7 +21,7 @@ export const getBookById = async (id) => {
 
 export const getBooks = async () => {
   try {
-    const bookResponse = await axiosBookInstance.get(`/listBook`);
+    const bookResponse = await axiosBookInstance.get(`/listbook`);
     console.log('bookResponse :', bookResponse.data);
     return bookResponse.data;
   } catch (error) {
