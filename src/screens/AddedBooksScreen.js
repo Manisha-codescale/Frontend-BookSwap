@@ -93,7 +93,7 @@ const AddedBooksScreen = () => {
           </View>
         ))}
       </ScrollView>
-      <TouchableOpacity style={styles.fab}>
+      <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('AddBookScreen')}>
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
     </View>

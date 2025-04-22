@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import {BASEURL} from '@env';
 import {BASEURL} from './apis';
+import { getFirebaseToken } from '../utils/firebaseTokenHelper';
 
 export const axiosBookInstance = axios.create({
   baseURL: `${BASEURL}/api/book`,
@@ -42,16 +43,30 @@ export const updateBook = async (id, updatedData) => {
   }
 };
 
-export const addBook = async newBookData => {
+// export const addBook = async newBookData => {
+//   try {
+//     const bookResponse = await axiosBookInstance.post(`/addBook/`, newBookData);
+//     console.log('bookResponse :', bookResponse.data);
+//     return bookResponse.data;
+//   } catch (error) {
+//     console.log('error :', error.bookResponse?.data?.error);
+//   }
+// };
+export const addBook = async (newBookData) => {
   try {
-    const bookResponse = await axiosBookInstance.post(`/addBook/`, newBookData);
+    const token = await getFirebaseToken();
+    console.log(token);
+    const bookResponse = await axiosBookInstance.post(`/addBook/`, newBookData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     console.log('bookResponse :', bookResponse.data);
     return bookResponse.data;
   } catch (error) {
     console.log('error :', error.bookResponse?.data?.error);
   }
-};
-
+}
 export const deleteBook = async (id) => {
   try {
     const bookResponse = await axiosBookInstance.delete(`/deleteBook/${id}`);
