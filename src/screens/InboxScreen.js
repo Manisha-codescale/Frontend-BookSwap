@@ -16,6 +16,7 @@ const InboxScreen = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
+    let intervalId;
     const fetchThreads = async () => {
       try {
         const chatThreads = await getChatThreads(userId);
@@ -29,6 +30,9 @@ const InboxScreen = ({ navigation }) => {
     };
 
     fetchThreads();
+    intervalId = setInterval(fetchThreads, 5000);
+
+    return () => clearInterval(intervalId); 
   }, []);
 
   if (loading) {
