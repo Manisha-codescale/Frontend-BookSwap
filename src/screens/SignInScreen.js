@@ -13,24 +13,23 @@ import React, {useState} from 'react';
 import auth, {sendPasswordResetEmail} from '@react-native-firebase/auth';
 import styles from '../styles/SignInStyles.js';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-// import {GOOGLE_WEB_CLIENT_ID} from '@env';
-  import {createStaticNavigation, useNavigation} from '@react-navigation/native';
+//import {GOOGLE_WEB_CLIENT_ID} from '@env';
+import {createStaticNavigation, useNavigation} from '@react-navigation/native';
 
-// GoogleSignin.configure({
-//   webClientId: GOOGLE_WEB_CLIENT_ID,
-// });
+//const GOOGLE_WEB_CLIENT_ID=`212138581207-io75bs1fco12t8r9fso7rb73juhjq5ba.apps.googleusercontent.com`
+
 GoogleSignin.configure({
-  webClientId: '212138581207-la4mgtisd26q5f0vrgmji7ff66dtupt0.apps.googleusercontent.com',
+  webClientId: `212138581207-io75bs1fco12t8r9fso7rb73juhjq5ba.apps.googleusercontent.com`,
 });
 
 const SignInScreen = () => {
   const navigation = useNavigation();
   const [isInProgress, setIsInProgress] = useState(false);
 
-   const onGoogleSignIn = async () => {
+  const onGoogleButtonPress = async () => {
     setIsInProgress(true);
     try {
-      await onGoogleButtonPress();
+      await onGoogleSignIn();
       console.log('Signed in with Google!');
       navigation.navigate('TabNavigator');
     } catch (err) {
@@ -41,7 +40,8 @@ const SignInScreen = () => {
     }
   };
 
-  async function onGoogleButtonPress() {
+  //async function onGoogleButtonPress() {
+  const onGoogleSignIn = async () => {
     await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
     const signInResult = await GoogleSignin.signIn();
     let idToken = signInResult.data?.idToken;
@@ -56,35 +56,10 @@ const SignInScreen = () => {
       signInResult.data.idToken,
     );
     return auth().signInWithCredential(googleCredential);
-  }
+  };
 
-  // async function onGoogleButtonPress() {
-  //   // Check if your device supports Google Play
-  //   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  //   // Get the users ID token
-  //   const signInResult = await GoogleSignin.signIn();
-  
-  //   // Try the new style of google-sign in result, from v13+ of that module
-  //   idToken = signInResult.data?.idToken;
-  //   if (!idToken) {
-  //     // if you are using older versions of google-signin, try old style result
-  //     idToken = signInResult.idToken;
-  //   }
-  //   if (!idToken) {
-  //     throw new Error('No ID token found');
-  //   }
-  
-  //   // Create a Google credential with the token
-  //   const googleCredential = auth.GoogleAuthProvider.credential(signInResult.data.idToken);
-  
-  //   // Sign-in the user with the credential
-  //   return auth().signInWithCredential(googleCredential);
-  //   navigation.navigate('TabNavigator');
-
-  // }
-
-  const [email, setEmail] = useState('sam@gmail.com');
-  const [password, setPassword] = useState('1998Mani');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const onLogin = () => {
     if (!email || !password) {
       Alert.alert('Error', 'Please enter email and password');
@@ -94,7 +69,6 @@ const SignInScreen = () => {
       .signInWithEmailAndPassword(email, password)
       .then(response => {
         console.log('User login successful', response);
-        Alert.alert('Login successful');
         navigation.navigate('TabNavigator');
       })
       .catch(error => {
@@ -162,7 +136,7 @@ const SignInScreen = () => {
           Forgot Password?
         </Text>
       </Pressable>
-      <TouchableOpacity onPress={onLogin} style={styles.signIn}>
+      <TouchableOpacity style={styles.signIn} onPress={onLogin}>
         <Text style={styles.signInText}>Sign In</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -173,24 +147,23 @@ const SignInScreen = () => {
 
       <TouchableOpacity
         style={styles.googleContent}
-        // onPress={ () => onGoogleButtonPress().then(() => console.log('Signed in with Google!')) }
-        onPress={ onGoogleSignIn }
-            // setIsInProgress(true);
-          //   try {
-          //     await onGoogleButtonPress();
-          //     console.log('Signed in with Google!');
-          //   } catch (err) {
-          //     console.log('Google sign-in error!');
-          //     Alert.alert('Error ', err.message);
-          //   } finally {
-          //     setIsInProgress(false);
-          //   }
-          // }} 
+        onPress={onGoogleButtonPress}
+        /* setIsInProgress(true);
+          try {
+            await onGoogleButtonPress();
+            console.log('Signed in with Google!');
+          } catch (err) {
+            console.log('Google sign-in error!');
+            Alert.alert('Error ', err.message);
+          } finally {
+            setIsInProgress(false);
+          }
+        }} */
 
         disabled={isInProgress}>
         <View style={styles.rowView}>
           <Image
-            // source={require('../assets/googleLogo.png')}
+            source={require('../assets/googleLogo.png')}
             style={styles.googleLogo}
           />
           <Text style={styles.signInText}>

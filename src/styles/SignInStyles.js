@@ -57,7 +57,7 @@ const SignInstyles = StyleSheet.create({
   },
   forgotPwText: {
     color: '#007BFF',
-    textDecorationLine: 'underline',
+    //textDecorationLine: 'underline',
   },
   pressed: {
     opacity: 0.5,

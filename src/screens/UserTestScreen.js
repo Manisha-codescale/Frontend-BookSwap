@@ -11,9 +11,20 @@ import {
   filterbook,
 } from '../api/bookRoutes';
 
+import {getChatThreads} from '../api/chatRoutes';
+
 const UserTestScreen = () => {
   const [result, setResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const handleGetChatThreads = async () => {
+    try {
+      const chatThreads = await getChatThreads('user123');
+      setResult(chatThreads);
+    } catch {
+      setErrorMsg('Error fetching chat threads');
+    }
+  };
 
   const handleGetUser = async () => {
     try {
@@ -132,6 +143,7 @@ const UserTestScreen = () => {
       <Button title="Delete Book" onPress={handleDeleteBook} />
       <Button title="Filter Books" onPress={handleFilterBooks} />
       <Button title="Search Books" onPress={handleSearchBooks} />
+      <Button title="Chat Threads" onPress={handleGetChatThreads} />
 
       {result && (
         <Text style={styles.result}>
