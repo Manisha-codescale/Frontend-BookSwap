@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  Alert,
 } from 'react-native';
 import styles from '../styles/SignUpStyles.js';
 //import {auth, createUserWithEmailAndPassword} from '../firebaseConfig.js';
 import auth from '@react-native-firebase/auth';
 import {createStaticNavigation, useNavigation} from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {addUser} from '../api/userRoutes.js';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const SignUpScreen = () => {
@@ -43,17 +45,45 @@ const SignUpScreen = () => {
 
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log('User account created & signed in!');
-        alert('User account created & signed in!');
+      .then(async response => {
+        const user = response.user;
+        const newUserData = {
+          email: user.email,
+          name:
+            user.name ||
+            user.displayName ||
+            user.email.split('@')[0] ||
+            'No Name',
+          date_of_birth: new Date(),
+          firebaseUid: user.uid,
+          authProvider: 'email',
+        };
+        await addUser(newUserData);
+        navigation.navigate('TabNavigator');
       })
       .catch(error => {
-        alert(error.message);
+        console.log('Login error:', error.code);
+        if (error.code === 'auth/network-request-failed') {
+          Alert.alert(
+            'Network Error',
+            'Please check your internet connection.',
+          );
+        } else if (error.code === 'auth/invalid-email') {
+          Alert.alert('Invalid Email', 'The email format is incorrect.');
+        } else if (error.code === 'auth/user-disabled') {
+          Alert.alert('Account Disabled', 'This account has been disabled.');
+        } else if (error.code === 'auth/invalid-credential') {
+          Alert.alert('Login Failed', 'Invalid email or password.');
+        } else if (error.code === 'auth/too-many-requests') {
+          Alert.alert('Too Many Attempts', 'Try again later.');
+        } else {
+          Alert.alert('Login Failed', error.message);
+        }
       });
   };
 
   const handleDateChange = (event, selectedDate) => {
-    setShowDatePicker(false); // Close the picker
+    setShowDatePicker(false);
     if (selectedDate) {
       setDate_of_birth(selectedDate.toISOString().split('T')[0]);
     }
@@ -65,7 +95,7 @@ const SignUpScreen = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="User Name"
+        placeholder="Name"
         value={name}
         onChangeText={setName}
       />
@@ -85,10 +115,11 @@ const SignUpScreen = () => {
 
       {showDatePicker && (
         <DateTimePicker
-          value={date_of_birth ? new Date(date_of_birth) : new Date()} // Default to selected date or today
+          value={date_of_birth ? new Date(date_of_birth) : new Date()}
+          maximumDate={new Date()}
           mode="date"
           display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={handleDateChange} 
+          onChange={handleDateChange}
         />
       )}
 
