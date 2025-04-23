@@ -67,6 +67,22 @@ export const addBook = async (newBookData) => {
     console.log('error :', error.bookResponse?.data?.error);
   }
 }
+
+export const AddedBook = async () => {
+  try {
+    const token = await getFirebaseToken();
+    console.log(token);
+    const bookResponse = await axiosBookInstance.get(`/listAddedbooks/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('bookResponse :', bookResponse.data);
+    return bookResponse.data;
+  }catch{
+    console.log('error :', error.bookResponse?.data?.error);
+  }
+}
 export const deleteBook = async (id) => {
   try {
     const bookResponse = await axiosBookInstance.delete(`/deleteBook/${id}`);
