@@ -19,9 +19,9 @@ export const addUser = async (userData) => {
   }
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async (firebaseUid) => {
     try {
-    const userResponse = await axiosUserInstance.get(`/getUserbyId/${id}`);
+    const userResponse = await axiosUserInstance.get(`/getUserbyId/${firebaseUid}`);
     console.log('userResponse :',userResponse.data);
       return userResponse.data;
   } catch (error) {
