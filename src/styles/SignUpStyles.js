@@ -7,7 +7,7 @@ const SignUpstyles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   header: {
-    fontSize: 24,
+    fontSize: 34,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 40,
@@ -21,9 +21,20 @@ const SignUpstyles = StyleSheet.create({
     paddingLeft: 20,
     fontSize: 16,
   },
+  dateInput: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    justifyContent: 'center',
+    height: 50,
+    borderRadius: 25,
+    marginBottom: 15,
+    paddingLeft: 20,
+    fontSize: 16,
+  },
   button: {
     height: 50,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#1d3557',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,
@@ -38,7 +49,7 @@ const SignUpstyles = StyleSheet.create({
     fontSize: 16,
   },
   signInLink: {
-    color: '#4CAF50',
+    color: '#1d3557',
     fontWeight: 'bold',
   },
 });
