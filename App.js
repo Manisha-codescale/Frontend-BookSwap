@@ -15,6 +15,7 @@ import BookScreen from './src/screens/BookScreen';
 import ChangePasswordScreen from './src/screens/ChangePasswordScreen';
 import EditBookScreen from './src/screens/EditBookScreen';
 import AddBookScreen from './src/screens/AddBookScreen';
+import {UserProvider} from './src/context/UserContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,6 +50,7 @@ const App = () => {
 
 
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignInScreen">
         <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />
@@ -61,7 +63,8 @@ const App = () => {
         <Stack.Screen name="EditBookScreen" component={EditBookScreen} options={{headerShown: false}} />
         <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{headerShown: false}} />
       </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+      </UserProvider>
   );
 };
 

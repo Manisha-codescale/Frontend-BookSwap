@@ -79,7 +79,7 @@ export const AddedBook = async () => {
     });
     console.log('bookResponse :', bookResponse.data);
     return bookResponse.data;
-  }catch{
+  }catch(error){
     console.log('error :', error.bookResponse?.data?.error);
   }
 }
