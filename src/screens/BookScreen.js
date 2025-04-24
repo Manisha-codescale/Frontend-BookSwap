@@ -5,17 +5,23 @@ import {
   Touchable,
   ScrollView,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import styles from '../styles/BookStyles';
 import {getBookById} from '../api/bookRoutes';
+import {createStaticNavigation, useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 const BookScreen = () => {
+  const navigation = useNavigation();
   const route = useRoute();
   const {bookId} = route.params;
-  
+  const currentUser = auth().currentUser;
+  const buyerId = currentUser?.uid;
+  console.log('BuyerID:', buyerId);
+
   const [book, setBook] = useState([]);
 
   useEffect(() => {
@@ -26,7 +32,7 @@ const BookScreen = () => {
         setBook(data);
       } catch (error) {
         console.error('Error loading books:', error);
-      } 
+      }
     };
 
     loadBook();
@@ -63,7 +69,14 @@ const BookScreen = () => {
           <Text style={styles.value}>{book.age_limit}+</Text>
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ThreadScreen', {
+              buyerId: buyerId,
+              sellerId: book.firebaseUID,
+            });
+          }}
+          style={styles.button}>
           <Text style={styles.buttonText}>Contact Seller</Text>
         </TouchableOpacity>
 
