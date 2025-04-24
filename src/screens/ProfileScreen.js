@@ -82,6 +82,7 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>My Profile</Text>
       <Image
         source={{
           uri:
