@@ -31,7 +31,6 @@ const AddedBooksScreen = () => {
 
     loadBooks();
   }, []);
-  console.log('AddedBooksList:', books);
 
   return (
     <SafeAreaView style={styles.container}>
