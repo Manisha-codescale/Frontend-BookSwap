@@ -37,15 +37,6 @@ const EditBookStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ButtonAdd: {
-    backgroundColor: '#007bff',
-    paddingVertical: 15,
-    alignItems: 'center',
-    //paddingHorizontal: 135,
-    width:'80%',
-    borderRadius: 5,
-    marginBottom: 20,
-  },
   radioRow: {
     flexDirection: 'row',
     marginBottom: 20,
