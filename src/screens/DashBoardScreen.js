@@ -11,6 +11,7 @@ import React, {useEffect, useState} from 'react';
 import styles from '../styles/DashBoardStyles';
 import {useNavigation} from '@react-navigation/native';
 import {getBooks} from '../api/bookRoutes';
+import {searchBookByNameAuthor} from '../api/bookRoutes';
 
 // const DATA = [
 //   {
@@ -103,6 +104,18 @@ const DashBoardScreen = () => {
 
     loadBooks();
   }, []);
+
+  const filteredBooks = async () => {
+    try{
+      const data = await searchBookByNameAuthor(searchQuery);
+      setBooks(data);
+     
+    }catch (error) {
+      console.error('Error loading books:', error);
+    }
+    
+
+  }
   
 
   
@@ -113,21 +126,25 @@ const DashBoardScreen = () => {
         {/* <Text>{data}</Text> */}
         <TextInput
           style={styles.searchBar}
-          placeholder="Search by name, author, or ISBN..."
+          placeholder="Search by name or author"
           placeholderTextColor="#888"
           value={searchQuery}
           onChangeText={setSearchQuery}
+          // onSubmitEditing={() => {
+          //   console.log('Search query:', searchQuery);
+          // }}
+          onSubmitEditing={filteredBooks}
         />
       </View>
 
-      <ScrollView
+      {/* <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.filterContainer}>
         <TouchableOpacity style={styles.filterButton}>
           <Text style={styles.filterText}>Category</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </ScrollView> */}
 
       <FlatList
         data={books}
