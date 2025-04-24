@@ -30,7 +30,7 @@ export const getBooks = async () => {
   }
 };
 
-export const updateBook = async (id,updatedData) => {
+/* export const updateBook = async (id,updatedData, bookImage) => {
   try {
     const token = await getFirebaseToken();
     console.log(token);
@@ -44,8 +44,72 @@ export const updateBook = async (id,updatedData) => {
   } catch (error) {
     console.log('error :', error.bookResponse?.data?.error);
   }
-}
+} */
 
+  export const updateBook = async (id, updatedData, bookImage) => {
+    try {
+      const token = await getFirebaseToken();
+      
+      // Create FormData object to handle file uploads
+      const formData = new FormData();
+      
+      // Add all updatedData fields to the formData
+      Object.keys(updatedData).forEach(key => {
+        formData.append(key, updatedData[key]);
+      });
+      
+      if (bookImage && !bookImage.startsWith('http')) {
+        formData.append('bookImage', {
+          uri: bookImage,
+          name: 'bookswapimg.jpg',
+          type: 'image/jpeg',
+        });
+      }
+
+      const bookResponse = await axiosBookInstance.put(`/updateBook/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data', // Important for file uploads
+        },
+      });
+      
+      console.log('bookResponse:', bookResponse.data);
+      return bookResponse.data;
+    } catch (error) {
+      console.log('error:', error.response?.data?.error || error.message);
+      throw error; // Re-throw to handle in the calling function
+    }
+  }
+  
+  export const updateUser = async (firebaseUid, userData, profileImage) => {
+    const formData = new FormData();
+    console.log('hit frontend api');
+    
+    formData.append('name', userData.name);
+    formData.append('email', userData.email);
+    formData.append('date_of_birth', userData.date_of_birth);
+    
+    if (profileImage && !profileImage.startsWith('http')) {
+      formData.append('profileImage', {
+        uri: profileImage,
+        name: 'bookswapimg.jpg',
+        type: 'image/jpeg',
+      });
+    }
+    
+    const response = await axios.put(
+      `${BASEURL}/api/users/updateUser/${firebaseUid}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    
+    return response.data;
+  };
+  
 // export const updateBook = async (id, updatedData) => {
 //   try {
 //     const bookResponse = await axiosBookInstance.put(

@@ -4,7 +4,7 @@ const EditBookStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333', 
+    color: '#333',
     textAlign: 'center',
     marginVertical: 20,
   },
@@ -26,10 +26,10 @@ const EditBookStyles = StyleSheet.create({
     marginBottom: 16,
   },
   image: {
-    height: 100,
-    width: 100,
-    borderRadius: 8,
     overflow: 'hidden',
+    width: 160,
+    height: 160,
+    borderRadius: 80,
   },
   imageOverlay: {
     flex: 1,
@@ -64,6 +64,22 @@ const EditBookStyles = StyleSheet.create({
   },
   radioText: {
     fontSize: 16,
+  },
+  inputBox: {
+    width: '90%',
+    padding: 10,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
+  container: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //backgroundColor: '#fff',
+    width: '100%',
+    alignSelf: 'center',
   },
 });
 
