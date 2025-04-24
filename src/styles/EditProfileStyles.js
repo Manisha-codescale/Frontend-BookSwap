@@ -25,7 +25,7 @@ const EditProfileStyles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     bottom: 0,
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
     padding: 6,
     borderRadius: 50,
   },
@@ -50,7 +50,7 @@ const EditProfileStyles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
     paddingVertical: 14,
     borderRadius: 10,
     width: '100%',

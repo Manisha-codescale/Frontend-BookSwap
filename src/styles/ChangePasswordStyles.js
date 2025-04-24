@@ -28,7 +28,7 @@ const ChangePasswordStyles = StyleSheet.create({
     color: '#333',
   },
   button: {
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
     paddingVertical: 14,
     paddingHorizontal: 30,
     borderRadius: 10,

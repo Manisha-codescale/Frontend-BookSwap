@@ -37,17 +37,17 @@ const ProfileStyles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 15,
   },
   logoutButton: {
-    backgroundColor: '#e63946',
+    backgroundColor: '#6B7280',
   },
   secondaryButton: {
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
   },
   buttonText: {
     color: '#fff',

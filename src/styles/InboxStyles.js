@@ -27,7 +27,7 @@ const Inboxstyles = StyleSheet.create({
       threadUser: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#1d3557',
+        color: '#007bff',
         marginBottom: 4,
       },
       threadMessage: {
