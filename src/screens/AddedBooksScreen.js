@@ -7,58 +7,61 @@ import {
   StyleSheet,
   MaterialIcons,
   FlatList,
-  SafeAreaView
+  SafeAreaView,
+  Alert,
 } from 'react-native';
-import React,{useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/AddedBooksStyles';
 import {createStaticNavigation, useNavigation} from '@react-navigation/native';
 import {AddedBook} from '../api/bookRoutes';
 
-
 const AddedBooksScreen = () => {
-     const navigation = useNavigation();
-     const [books, setBooks] = useState([]);
-   
-     useEffect(() => {
-       const loadBooks = async () => {
-         try {
-           const data = await AddedBook();
-           setBooks(data);
-         } catch (error) {
-           console.error('Error loading books:', error);
-         } 
-       };
-   
-       loadBooks();
-     }, []);
-     
-   
+  const navigation = useNavigation();
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const loadBooks = async () => {
+      try {
+        const data = await AddedBook();
+        setBooks(data);
+      } catch (error) {
+        console.error('Error loading books:', error);
+      }
+    };
+
+    loadBooks();
+  }, []);
 
   return (
-  
     <SafeAreaView style={styles.container}>
-    <Text style={styles.title}>My Books</Text>
+      <Text style={styles.title}>My Books</Text>
 
-    <FlatList
-      data={books}
-      keyExtractor={item => item._id.toString()}
-      contentContainerStyle={{paddingBottom: 100}}
-      renderItem={({item}) => (
-        <TouchableOpacity
-          style={styles.itemContainer}
-          onPress={() => navigation.navigate('BookScreen', {bookId: item._id})}>
-          <View style={styles.detailsContainer}>
-            <View style={styles.rowBetween}>
-              <Text style={styles.name}>{item.name}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('EditBookScreen',{ itemId: item._id })}>
-                <Icon name="pencil" size={20} color="#555" />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.text}>Author: {item.auther}</Text>
-            <Text style={styles.text}>ISBN: {item.ISBN}</Text>
-            <Text style={styles.price}>Price: {item.price}</Text>
-            {/* <View style={styles.conditionContainer}>
+      <FlatList
+        data={books}
+        keyExtractor={item => item._id.toString()}
+        contentContainerStyle={{paddingBottom: 100}}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() =>
+              navigation.navigate('BookScreen', {bookId: item._id})
+            }>
+            <View style={styles.detailsContainer}>
+              <View style={styles.rowBetween}>
+                <Text style={styles.name}>{item.name}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('EditBookScreen', {itemId: item._id})
+                  }>
+                  <Icon name="pencil" size={20} color="#555" />
+                  {/* <Icon name="delete" size={20} color="#555"/> */}
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.text}>Author: {item.auther}</Text>
+              <Text style={styles.text}>ISBN: {item.ISBN}</Text>
+              <Text style={styles.price}>Price: {item.price}</Text>
+              {/* <View style={styles.conditionContainer}>
               <View
                 style={[
                   styles.circle,
@@ -66,17 +69,17 @@ const AddedBooksScreen = () => {
                 ]}
               />
             </View> */}
-          </View>
-        </TouchableOpacity>
-      )}
-    />
+            </View>
+          </TouchableOpacity>
+        )}
+      />
 
-    <TouchableOpacity
-      style={styles.fab}
-      onPress={() => navigation.navigate('AddBookScreen')}>
-      <Icon name="plus" size={30} color="#fff" />
-    </TouchableOpacity>
-  </SafeAreaView>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => navigation.navigate('AddBookScreen')}>
+        <Icon name="plus" size={30} color="#fff" />
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
