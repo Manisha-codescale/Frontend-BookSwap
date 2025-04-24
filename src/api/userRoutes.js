@@ -29,9 +29,9 @@ export const getUserById = async (firebaseUid) => {
   }
 };
 
-export const updateUser = async (id, updatedData) => {
+export const updateUser = async (firebaseUid, updatedData) => {
     try {
-    const userResponse = await axiosUserInstance.put(`/updateUser/${id}`,updatedData);
+    const userResponse = await axiosUserInstance.put(`/updateUser/${firebaseUid}`,updatedData);
     console.log('userResponse :',userResponse.data);
       return userResponse.data;
   } catch (error) {

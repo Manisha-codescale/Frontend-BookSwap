@@ -14,7 +14,8 @@ const ProfileStyles = StyleSheet.create({
     marginVertical: 16,
     borderRadius: 80, 
     borderColor: '#ccc',
-    marginBottom: 20,
+    marginBottom: 40,
+    alignSelf: 'center',
   },
   infoBox: {
     flexDirection: 'row',

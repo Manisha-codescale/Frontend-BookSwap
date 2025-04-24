@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,55 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Feather';
-import styles from '../styles/EditProfileStyles.js'; 
+import styles from '../styles/EditProfileStyles.js';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import {UserContext} from '../context/UserContext';
+import {getUserById, updateUser} from '../api/userRoutes';
+import {useNavigation} from '@react-navigation/native';
+import ResetPasswordScreen from './ResetPasswordScreen.js';
 
 const EditProfileScreen = () => {
+  const {uid} = useContext(UserContext);
+  const navigation = useNavigation();
+
+  const [user, setUser] = useState(null);
   const [profileImage, setProfileImage] = useState(
-    'https://1857756846.rsc.cdn77.org/static/features/ai-face-generator/man1-swap-2.jpeg',
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
   );
+  const [originalUser, setOriginalUser] = useState(null); 
+  const [originalImage, setOriginalImage] = useState(null); 
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const fetchedUser = await getUserById(uid);
+        if (fetchedUser) {
+          const initialUserData = {
+            name: fetchedUser.name || '',
+            email: fetchedUser.email || '',
+            date_of_birth: fetchedUser.date_of_birth?.split('T')[0] || '',
+          };
+          setUser(initialUserData);
+          setOriginalUser(initialUserData);
+
+          const initialImage =
+            fetchedUser.profileImage ||
+            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+          setProfileImage(initialImage);
+          setOriginalImage(initialImage);
+        }
+      } catch (error) {
+        console.log('Error fetching user:', error);
+      }
+    };
+    fetchUser();
+  }, [uid]);
+
+  const validateEmail = email => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleImagePick = () => {
     ImagePicker.openPicker({
@@ -35,25 +76,10 @@ const EditProfileScreen = () => {
       });
   };
 
-  const [user, setUser] = useState({
-    username: 'Alan777',
-    name: 'Alan Ray',
-    email: 'alanray@email.com',
-    date_of_birth: '2000-02-07',
-    address: 'No. 43, Park Street, Paris',
-  });
-
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      const formattedDate = selectedDate.toISOString().split('T')[0];
       handleChange('date_of_birth', formattedDate);
     }
   };
@@ -62,14 +88,36 @@ const EditProfileScreen = () => {
     setUser({...user, [field]: value});
   };
 
-  const handleSaveChanges = () => {
+  const handleCancelChanges = () => {
+    setUser(originalUser);
+    setProfileImage(originalImage);
+  };
+
+  const handleSaveChanges = async () => {
     if (!validateEmail(user.email)) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
-    console.log('Changes saved', user);
-    Alert.alert('Changes saved successfully!');
+
+    try {
+      await updateUser(uid, {...user, profileImage});
+      Alert.alert('Success', 'Changes saved successfully!');
+      navigation.navigate('TabNavigator', {
+        screen: 'ProfileScreen',
+      });
+    } catch (error) {
+      console.log('Error updating user:', error);
+      Alert.alert('Error', 'Failed to save changes.');
+    }
   };
+
+  if (!user) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading user profile...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -83,17 +131,16 @@ const EditProfileScreen = () => {
       </View>
 
       {[
-        {label: 'Username', field: 'username', keyboard: 'default'},
         {label: 'Name', field: 'name', keyboard: 'default'},
         {label: 'Email', field: 'email', keyboard: 'email-address'},
         {label: 'Date of Birth', field: 'date_of_birth', keyboard: 'default'},
-        {label: 'Address', field: 'address', keyboard: 'default'},
       ].map((item, index) => (
         <View key={index} style={styles.infoBox}>
           <Text style={styles.label}>{item.label}</Text>
-
           {item.field === 'date_of_birth' ? (
-            <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateInput}>
+            <TouchableOpacity
+              onPress={() => setShowDatePicker(true)}
+              style={styles.dateInput}>
               <Text>{user.date_of_birth || `Select ${item.label}`}</Text>
             </TouchableOpacity>
           ) : (
@@ -102,7 +149,7 @@ const EditProfileScreen = () => {
               value={user[item.field]}
               keyboardType={item.keyboard}
               placeholder={`Enter ${item.label}`}
-              onChangeText={(val) => handleChange(item.field, val)}
+              onChangeText={val => handleChange(item.field, val)}
             />
           )}
         </View>
@@ -116,10 +163,20 @@ const EditProfileScreen = () => {
           onChange={handleDateChange}
         />
       )}
-      <TouchableOpacity style={styles.button}>
+
+      <TouchableOpacity
+        style={styles.buttonCancel}
+        onPress={handleCancelChanges}>
+        <Text style={styles.buttonText}>Cancel</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
         <Text style={styles.buttonText}>Save Changes</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleSaveChanges}>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate(ResetPasswordScreen)}>
         <Text style={styles.buttonText}>Edit Password</Text>
       </TouchableOpacity>
     </ScrollView>

@@ -1,4 +1,10 @@
-import {View,Image, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import styles from '../styles/ProfileStyles';
 import {useNavigation} from '@react-navigation/native';
@@ -48,18 +54,25 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={{uri: user.image}} style={styles.image} />
+      <Image
+        source={{
+          uri:
+            user.image ||
+            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+        }}
+        style={styles.image}
+      />
       <View style={styles.infoBox}>
-      <Text style={styles.label}>Name:</Text>
-      <Text style={styles.value}>{user.name}</Text>
+        <Text style={styles.label}>Name:</Text>
+        <Text style={styles.value}>{user.name}</Text>
       </View>
       <View style={styles.infoBox}>
-      <Text style={styles.label}>Email:</Text>
-      <Text style={styles.value}>{user.email}</Text>
+        <Text style={styles.label}>Email:</Text>
+        <Text style={styles.value}>{user.email}</Text>
       </View>
       <View style={styles.infoBox}>
-      <Text style={styles.label}>Age:</Text>
-      <Text style={styles.value}>{user.age}</Text>
+        <Text style={styles.label}>Age:</Text>
+        <Text style={styles.value}>{user.age}</Text>
       </View>
       <TouchableOpacity
         style={styles.button}
