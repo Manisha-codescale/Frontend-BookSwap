@@ -29,7 +29,36 @@ export const getUserById = async (firebaseUid) => {
   }
 };
 
-export const updateUser = async (firebaseUid, updatedData) => {
+export const updateUser = async (firebaseUid, userData, profileImage) => {
+  const formData = new FormData();
+  console.log('hit frontend api');
+  
+  formData.append('name', userData.name);
+  formData.append('email', userData.email);
+  formData.append('date_of_birth', userData.date_of_birth);
+  
+  if (profileImage && !profileImage.startsWith('http')) {
+    formData.append('profileImage', {
+      uri: profileImage,
+      name: 'bookswapimg.jpg',
+      type: 'image/jpeg',
+    });
+  }
+  
+  const response = await axios.put(
+    `${BASEURL}/api/users/updateUser/${firebaseUid}`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+  
+  return response.data;
+};
+
+/* export const updateUser = async (firebaseUid, updatedData) => {
     try {
     const userResponse = await axiosUserInstance.put(`/updateUser/${firebaseUid}`,updatedData);
     console.log('userResponse :',userResponse.data);
@@ -37,7 +66,7 @@ export const updateUser = async (firebaseUid, updatedData) => {
   } catch (error) {
     console.log("error :", error.userResponse?.data?.error);
   }
-};
+}; */
 
 /* export const addUser = async (newUserData) => {
     try {

@@ -1,6 +1,6 @@
 import axios from 'axios';
-// import {BASEURL} from '@env';
-import {BASEURL} from './apis';
+import {BASEURL} from '@env';
+//import {BASEURL} from './apis';
 import { getFirebaseToken } from '../utils/firebaseTokenHelper';
 
 export const axiosBookInstance = axios.create({
