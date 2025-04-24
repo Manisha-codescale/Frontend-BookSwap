@@ -61,8 +61,8 @@ const DashBoardStyles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 80,
-    height: 100,
+    width: '30%',
+    aspectRatio: 1,
     borderRadius: 5,
     marginRight: 10,
   },
