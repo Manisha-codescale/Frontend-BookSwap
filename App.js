@@ -15,6 +15,7 @@ import BookScreen from './src/screens/BookScreen';
 import ChangePasswordScreen from './src/screens/ChangePasswordScreen';
 import EditBookScreen from './src/screens/EditBookScreen';
 import AddBookScreen from './src/screens/AddBookScreen';
+import ThreadScreen from './src/screens/ThreadScreen';
 import {UserProvider} from './src/context/UserContext';
 
 const Stack = createNativeStackNavigator();
@@ -62,6 +63,7 @@ const App = () => {
         <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{headerShown: false}} />
         <Stack.Screen name="EditBookScreen" component={EditBookScreen} options={{headerShown: false}} />
         <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{headerShown: false}} />
+        <Stack.Screen name="ThreadScreen" component={ThreadScreen} options={{headerShown: false}} />
       </Stack.Navigator>
       </NavigationContainer>
       </UserProvider>
