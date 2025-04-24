@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 const BookStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'top',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 10,
