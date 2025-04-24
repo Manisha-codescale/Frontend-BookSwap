@@ -10,6 +10,7 @@ import styles from '../styles/ProfileStyles';
 import {useNavigation} from '@react-navigation/native';
 import {UserContext} from '../context/UserContext';
 import {getUserById} from '../api/userRoutes';
+import auth from '@react-native-firebase/auth';
 
 const ProfileScreen = () => {
   const {uid} = useContext(UserContext);
@@ -34,6 +35,13 @@ const ProfileScreen = () => {
 
     fetchUser();
   }, [uid]);
+
+  const onLogout = async () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+    navigation.navigate('SignInScreen');
+  };
 
   if (loading) {
     return (
@@ -84,6 +92,12 @@ const ProfileScreen = () => {
         style={[styles.button, styles.secondaryButton]}
         onPress={() => navigation.navigate('ChangePasswordScreen')}>
         <Text style={styles.buttonText}>Change Password</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, styles.logoutButton]}
+        onPress={onLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );

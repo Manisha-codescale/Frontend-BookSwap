@@ -43,6 +43,9 @@ const ProfileStyles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 15,
   },
+  logoutButton: {
+    backgroundColor: '#4B5563',
+  },
   secondaryButton: {
     backgroundColor: '#1d3557',
   },
