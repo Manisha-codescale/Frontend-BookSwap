@@ -8,41 +8,46 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React,{ useContext , useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {GOOGLE_WEB_CLIENT_ID} from '@env';
 import {useNavigation} from '@react-navigation/native';
 import styles from '../styles/SignInStyles.js';
 import { addUser } from '../api/userRoutes';
+import {UserContext} from '../context/UserContext';
 
 GoogleSignin.configure({
   webClientId: GOOGLE_WEB_CLIENT_ID,
 });
 
 const SignInScreen = () => {
+  const [firebaseUid, setFirebaseUid] = useState(null);
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isInProgress, setIsInProgress] = useState(false);
 
-  const onLogin = () => {
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(async response => {
-        const user = response.user;
-        const newUserData = {
-          email: user.email,
-          name: user.displayName || user.email.split('@')[0] || 'No Name',
-          date_of_birth: new Date(), 
-          firebaseUid: user.uid,
-          authProvider: 'email',
-        };
-        await addUser(newUserData);
-        navigation.navigate('TabNavigator');
-      })
-      .catch(error => {
-        console.log('Login error:', error.code);
+  const onLogin = async () => {
+    try {
+      const userCredential = await auth()
+        .signInWithEmailAndPassword(email, password)
+      const user = userCredential.user;
+      const newUserData = {
+        email: user.email,
+        name: user.displayName || user.email.split('@')[0] || 'No Name',
+        date_of_birth: new Date(),
+        firebaseUid: user.uid,
+        authProvider: 'email',
+      };
+      await addUser(newUserData); 
+      const uid = userCredential.user.uid;
+      console.log('User UID:', uid);
+      setFirebaseUid(uid);
+      navigation.navigate('TabNavigator');
+    }
+    catch (error) {
+      console.log('Login error:', error.code);
       if (error.code === 'auth/network-request-failed') {
         Alert.alert('Network Error', 'Please check your internet connection.');
       } else if (error.code === 'auth/invalid-email') {
@@ -56,9 +61,8 @@ const SignInScreen = () => {
       } else {
         Alert.alert('Login Failed', error.message);
       }
-    });
+    }
   };
-  
   const onGoogleSignIn = async () => {
     await GoogleSignin.hasPlayServices();
     const signInResult = await GoogleSignin.signIn();
@@ -123,7 +127,11 @@ const SignInScreen = () => {
       />
 
       <Pressable onPress={forgotPassword} style={({pressed}) => [styles.forgotPw, pressed && styles.pressed]}>
-        <Text style={styles.forgotPwText}>Forgot Password?</Text>
+      <Text style={styles.forgotPwText}>
+          {
+            '\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003'
+          }
+          Forgot Password?</Text>
       </Pressable>
 
       <TouchableOpacity style={styles.signIn} onPress={onLogin}>

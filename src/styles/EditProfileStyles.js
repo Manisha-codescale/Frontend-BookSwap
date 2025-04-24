@@ -17,9 +17,9 @@ const EditProfileStyles = StyleSheet.create({
     marginBottom: 26,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 160,
+    height: 160,
+    borderRadius: 80,
   },
   cameraIcon: {
     position: 'absolute',
@@ -51,6 +51,14 @@ const EditProfileStyles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#1d3557',
+    paddingVertical: 14,
+    borderRadius: 10,
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  buttonCancel: {
+    backgroundColor: '#6B7280',
     paddingVertical: 14,
     borderRadius: 10,
     width: '100%',

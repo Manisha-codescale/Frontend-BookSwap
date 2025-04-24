@@ -19,9 +19,9 @@ export const addUser = async (userData) => {
   }
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async (firebaseUid) => {
     try {
-    const userResponse = await axiosUserInstance.get(`/getUserbyId/${id}`);
+    const userResponse = await axiosUserInstance.get(`/getUserbyId/${firebaseUid}`);
     console.log('userResponse :',userResponse.data);
       return userResponse.data;
   } catch (error) {
@@ -29,9 +29,9 @@ export const getUserById = async (id) => {
   }
 };
 
-export const updateUser = async (id, updatedData) => {
+export const updateUser = async (firebaseUid, updatedData) => {
     try {
-    const userResponse = await axiosUserInstance.put(`/updateUser/${id}`,updatedData);
+    const userResponse = await axiosUserInstance.put(`/updateUser/${firebaseUid}`,updatedData);
     console.log('userResponse :',userResponse.data);
       return userResponse.data;
   } catch (error) {
