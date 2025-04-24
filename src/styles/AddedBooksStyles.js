@@ -86,6 +86,12 @@ const AddedBooksStyles = StyleSheet.create({
     color: '#555',
     marginTop: 2,
   },
+  image: {
+    width: '35%',
+    aspectRatio: 1,
+    borderRadius: 5,
+    marginRight: 10,
+  },
   // condition: {
   //   //fontSize: 13,
   //   color: '#dc143c',

@@ -32,6 +32,7 @@ const AddedBooksScreen = () => {
    
        loadBooks();
      }, []);
+  console.log('AddedBooksList:', books);
      
    
 
@@ -47,17 +48,21 @@ const AddedBooksScreen = () => {
       renderItem={({item}) => (
         <TouchableOpacity
           style={styles.itemContainer}
-          onPress={() => navigation.navigate('BookScreen', {bookId: item._id})}>
+          onPress={() => navigation.navigate('BookScreen', { bookId: item._id })}>
+          <Image source={{uri: item.bookImage}} style={styles.image} />
           <View style={styles.detailsContainer}>
             <View style={styles.rowBetween}>
               <Text style={styles.name}>{item.name}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('EditBookScreen',{ itemId: item._id })}>
-                <Icon name="pencil" size={20} color="#555" />
-              </TouchableOpacity>
+              
             </View>
+            <View style={styles.rowBetween}>
+            <View>
             <Text style={styles.text}>Author: {item.auther}</Text>
             <Text style={styles.text}>ISBN: {item.ISBN}</Text>
-            <Text style={styles.price}>Price: {item.price}</Text>
+              <Text style={styles.price}>Price: {item.price}</Text>
+              </View>
+            
+              </View>
             {/* <View style={styles.conditionContainer}>
               <View
                 style={[
@@ -66,6 +71,9 @@ const AddedBooksScreen = () => {
                 ]}
               />
             </View> */}
+            <TouchableOpacity onPress={() => navigation.navigate('EditBookScreen',{ itemId: item._id })}>
+                <Icon name="pencil" size={20} color="#555" />
+              </TouchableOpacity>
           </View>
         </TouchableOpacity>
       )}
