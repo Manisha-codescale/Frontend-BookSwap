@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import styles from '../styles/ProfileStyles';
@@ -37,10 +38,29 @@ const ProfileScreen = () => {
   }, [uid]);
 
   const onLogout = async () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'));
-    navigation.navigate('SignInScreen');
+    Alert.alert(
+      'Log Out',
+      'Are you sure you want to log out?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Logout cancelled'),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            auth()
+              .signOut()
+              .then(() => {
+                console.log('User signed out!');
+                navigation.navigate('SignInScreen');
+              });
+          },
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   if (loading) {
@@ -88,11 +108,11 @@ const ProfileScreen = () => {
         <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
         onPress={() => navigation.navigate('ChangePasswordScreen')}>
         <Text style={styles.buttonText}>Change Password</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         style={[styles.button, styles.logoutButton]}
