@@ -66,9 +66,6 @@ const DashBoardStyles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 10,
   },
-  detailsContainer: {
-    flex: 1,
-  },
   name: {
     fontSize: 18,
     fontWeight: "bold",
@@ -84,22 +81,30 @@ const DashBoardStyles = StyleSheet.create({
     color: "#d9534f",
     marginTop: 5,
   },
-  conditionContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 5,
-  },
   circle: {
     width: 12,
     height: 12,
     borderRadius: 6,
     marginRight: 5,
   },
-  conditionText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#333",
+  detailsContainer: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'space-between',
   },
+  
+  conditionContainer: {
+    marginTop: 1,
+    alignSelf: 'flex-end',
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  conditionText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  
 });
 
 export default DashBoardStyles;

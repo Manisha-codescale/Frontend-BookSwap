@@ -92,6 +92,29 @@ const AddedBooksStyles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 10,
   },
+  detailsContainer: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'space-between',
+  },
+  
+  conditionContainer: {
+    marginTop: 8,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  
+  conditionText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  iconLeft: {
+    alignSelf: 'flex-end',
+  },
+  
+  
   // condition: {
   //   //fontSize: 13,
   //   color: '#dc143c',
