@@ -49,6 +49,21 @@ const EditProfileStyles = StyleSheet.create({
     color: '#444',
     width: '100%',
   },
+  profilename: {
+    borderRadius: 8,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 8,
+    paddingHorizontal: 12,
+    fontSize: 16,
+    color: '#444',
+    width: '90%',
+    textAlign: 'right',
+    marginBottom: 4,
+  },
+  infoBoxRow: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    width: '100%',
+  },
   button: {
     backgroundColor: '#007bff',
     paddingVertical: 14,
