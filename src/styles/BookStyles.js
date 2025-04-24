@@ -27,8 +27,8 @@ const BookStyles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 160,
-    height: 240,
+    width: '80%',
+    aspectRatio: 1,
     resizeMode: 'contain',
     marginVertical: 16,
     borderRadius: 10,
