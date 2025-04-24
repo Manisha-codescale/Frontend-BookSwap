@@ -13,8 +13,13 @@ const EditBookStyles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    borderRadius: 10,
+    margin: 10,
+  },
+  conditionInput: {
+    // borderWidth: 1,
+    // borderRadius: 10,
+    margin: 10,
   },
   imageContainer: {
     alignSelf: 'center',
@@ -40,6 +45,34 @@ const EditBookStyles = StyleSheet.create({
     width:'80%',
     borderRadius: 5,
     marginBottom: 20,
+  },
+  radioRow: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  radioOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  radioCircle: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#4CAF50',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  selectedRb: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#4CAF50',
+  },
+  radioText: {
+    fontSize: 16,
   },
 });
 

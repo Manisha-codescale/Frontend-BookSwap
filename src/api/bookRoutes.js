@@ -30,18 +30,34 @@ export const getBooks = async () => {
   }
 };
 
-export const updateBook = async (id, updatedData) => {
+export const updateBook = async (id,updatedData) => {
   try {
-    const bookResponse = await axiosBookInstance.put(
-      `/updateBook/${id}`,
-      updatedData,
-    );
+    const token = await getFirebaseToken();
+    console.log(token);
+    const bookResponse = await axiosBookInstance.put(`/updateBook/${id}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     console.log('bookResponse :', bookResponse.data);
     return bookResponse.data;
   } catch (error) {
     console.log('error :', error.bookResponse?.data?.error);
   }
-};
+}
+
+// export const updateBook = async (id, updatedData) => {
+//   try {
+//     const bookResponse = await axiosBookInstance.put(
+//       `/updateBook/${id}`,
+//       updatedData,
+//     );
+//     console.log('bookResponse :', bookResponse.data);
+//     return bookResponse.data;
+//   } catch (error) {
+//     console.log('error :', error.bookResponse?.data?.error);
+//   }
+// };
 
 // export const addBook = async newBookData => {
 //   try {

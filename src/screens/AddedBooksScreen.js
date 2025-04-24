@@ -51,7 +51,7 @@ const AddedBooksScreen = () => {
           <View style={styles.detailsContainer}>
             <View style={styles.rowBetween}>
               <Text style={styles.name}>{item.name}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('EditBookScreen')}>
+              <TouchableOpacity onPress={() => navigation.navigate('EditBookScreen',{ itemId: item._id })}>
                 <Icon name="pencil" size={20} color="#555" />
               </TouchableOpacity>
             </View>
