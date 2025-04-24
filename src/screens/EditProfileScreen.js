@@ -16,16 +16,13 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {UserContext} from '../context/UserContext';
 import {getUserById, updateUser} from '../api/userRoutes';
 import {useNavigation} from '@react-navigation/native';
-import ResetPasswordScreen from './ResetPasswordScreen.js';
 
 const EditProfileScreen = () => {
   const {uid} = useContext(UserContext);
   const navigation = useNavigation();
 
   const [user, setUser] = useState(null);
-  const [profileImage, setProfileImage] = useState(
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-  );
+  const [profileImage, setProfileImage] = useState('');
   const [originalUser, setOriginalUser] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -55,11 +52,6 @@ const EditProfileScreen = () => {
     };
     fetchUser();
   }, [uid]);
-
-  const validateEmail = email => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   const handleImagePick = () => {
     ImagePicker.openPicker({
@@ -94,13 +86,8 @@ const EditProfileScreen = () => {
   };
 
   const handleSaveChanges = async () => {
-    if (!validateEmail(user.email)) {
-      Alert.alert('Invalid Email', 'Please enter a valid email address.');
-      return;
-    }
-
     try {
-      await updateUser(uid, {...user, profileImage});
+      await updateUser(uid, user, profileImage);
       Alert.alert('Success', 'Changes saved successfully!');
       navigation.navigate('TabNavigator', {
         screen: 'ProfileScreen',
@@ -130,14 +117,15 @@ const EditProfileScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.infoBoxRow}>
+      <View style={styles.infoBox}>
         <Text style={styles.label}>Email</Text>
-        <Text
-          style={styles.profilename} keyboardType="email-address"
+        <TextInput
+          style={styles.input}
+          value={user.email}
+          keyboardType="email-address"
           placeholder="Enter Email"
-         >
-        {user.email}
-        </Text>
+          onChangeText={val => handleChange('email', val)}
+        />
       </View>
 
       <View style={styles.infoBox}>
@@ -181,7 +169,7 @@ const EditProfileScreen = () => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate(ResetPasswordScreen)}>
+        onPress={() => navigation.navigate('ResetPasswordScreen')}>
         <Text style={styles.buttonText}>Edit Password</Text>
       </TouchableOpacity>
     </ScrollView>
