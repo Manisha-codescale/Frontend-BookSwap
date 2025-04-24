@@ -4,12 +4,14 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import styles from '../styles/ProfileStyles';
 import {useNavigation} from '@react-navigation/native';
 import {UserContext} from '../context/UserContext';
 import {getUserById} from '../api/userRoutes';
+import auth from '@react-native-firebase/auth';
 
 const ProfileScreen = () => {
   const {uid} = useContext(UserContext);
@@ -34,6 +36,32 @@ const ProfileScreen = () => {
 
     fetchUser();
   }, [uid]);
+
+  const onLogout = async () => {
+    Alert.alert(
+      'Log Out',
+      'Are you sure you want to log out?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Logout cancelled'),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            auth()
+              .signOut()
+              .then(() => {
+                console.log('User signed out!');
+                navigation.navigate('SignInScreen');
+              });
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
 
   if (loading) {
     return (
@@ -80,10 +108,16 @@ const ProfileScreen = () => {
         <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
         onPress={() => navigation.navigate('ChangePasswordScreen')}>
         <Text style={styles.buttonText}>Change Password</Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+        style={[styles.button, styles.logoutButton]}
+        onPress={onLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );

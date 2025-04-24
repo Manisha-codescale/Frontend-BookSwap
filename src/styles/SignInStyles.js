@@ -25,7 +25,7 @@ const SignInstyles = StyleSheet.create({
     alignItems: 'center',
   },
   googleContent: {
-    backgroundColor: '#007BF3',
+    backgroundColor: '#374151',
     paddingVertical: 10,
     borderRadius: 5,
     marginBottom: 20,
@@ -38,7 +38,7 @@ const SignInstyles = StyleSheet.create({
     marginRight: 10,
   },
   signIn: {
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
     paddingVertical: 15,
     alignItems: 'center',
     //paddingHorizontal: 135,

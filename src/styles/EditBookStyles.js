@@ -9,9 +9,12 @@ const EditBookStyles = StyleSheet.create({
     marginVertical: 20,
   },
   input: {
+    width: '100%',
+    padding: 10,
+    marginBottom: 20,
     borderWidth: 1,
-    borderRadius: 10,
-    margin: 10,
+    borderColor: '#ccc',
+    borderRadius: 5,
   },
   imageContainer: {
     alignSelf: 'center',
@@ -28,6 +31,15 @@ const EditBookStyles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  ButtonAdd: {
+    backgroundColor: '#007bff',
+    paddingVertical: 15,
+    alignItems: 'center',
+    //paddingHorizontal: 135,
+    width:'80%',
+    borderRadius: 5,
+    marginBottom: 20,
   },
 });
 

@@ -26,8 +26,8 @@ const EditProfileScreen = () => {
   const [profileImage, setProfileImage] = useState(
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
   );
-  const [originalUser, setOriginalUser] = useState(null); 
-  const [originalImage, setOriginalImage] = useState(null); 
+  const [originalUser, setOriginalUser] = useState(null);
+  const [originalImage, setOriginalImage] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
@@ -130,30 +130,35 @@ const EditProfileScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {[
-        {label: 'Name', field: 'name', keyboard: 'default'},
-        {label: 'Email', field: 'email', keyboard: 'email-address'},
-        {label: 'Date of Birth', field: 'date_of_birth', keyboard: 'default'},
-      ].map((item, index) => (
-        <View key={index} style={styles.infoBox}>
-          <Text style={styles.label}>{item.label}</Text>
-          {item.field === 'date_of_birth' ? (
-            <TouchableOpacity
-              onPress={() => setShowDatePicker(true)}
-              style={styles.dateInput}>
-              <Text>{user.date_of_birth || `Select ${item.label}`}</Text>
-            </TouchableOpacity>
-          ) : (
-            <TextInput
-              style={styles.input}
-              value={user[item.field]}
-              keyboardType={item.keyboard}
-              placeholder={`Enter ${item.label}`}
-              onChangeText={val => handleChange(item.field, val)}
-            />
-          )}
-        </View>
-      ))}
+      <View style={styles.infoBoxRow}>
+        <Text style={styles.label}>Email</Text>
+        <Text
+          style={styles.profilename} keyboardType="email-address"
+          placeholder="Enter Email"
+         >
+        {user.email}
+        </Text>
+      </View>
+
+      <View style={styles.infoBox}>
+        <Text style={styles.label}>Name</Text>
+        <TextInput
+          style={styles.input}
+          value={user.name}
+          keyboardType="default"
+          placeholder="Enter Name"
+          onChangeText={val => handleChange('name', val)}
+        />
+      </View>
+
+      <View style={styles.infoBox}>
+        <Text style={styles.label}>Date of Birth</Text>
+        <TouchableOpacity
+          onPress={() => setShowDatePicker(true)}
+          style={styles.dateInput}>
+          <Text>{user.date_of_birth || 'Select Date of Birth'}</Text>
+        </TouchableOpacity>
+      </View>
 
       {showDatePicker && (
         <DateTimePicker

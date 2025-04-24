@@ -19,7 +19,7 @@ const BookStyles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 8,
-    color: '#1d3557',
+    color: '#007bff',
   },
   author: {
     fontSize: 18,
@@ -56,10 +56,10 @@ const BookStyles = StyleSheet.create({
     color: '#dc143c',
   },
   button: {
-    backgroundColor: '#1d3557',
+    backgroundColor: '#007bff',
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 8,
+    borderRadius: 5,
     marginTop: 20,
   },
   buttonText: {

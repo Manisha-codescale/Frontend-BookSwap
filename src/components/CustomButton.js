@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    backgroundColor: '#4CAF50',
+    backgroundColor: "#007bff",
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
+    borderRadius: 5,
     marginBottom: 15,
+    paddingVertical: 15,
+    width:'100%',
   },
   titleText: {
     fontSize: 16,
