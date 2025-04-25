@@ -32,7 +32,7 @@ const EditBookScreen = () => {
   const [ageLimit, setAgeLimit] = useState();
   const [description, setDescription] = useState('');
   const [condition, setCondition] = useState(false);
-  const [image, setImage] = useState('https://www.w3.org/Icons/w3c_home.png');
+  const [bookImage, setBookImage] = useState('');
 
   useEffect(() => {
     const loadBook = async () => {
@@ -47,7 +47,7 @@ const EditBookScreen = () => {
         setAgeLimit(data.age_limit);
         setDescription(data.description);
         setCondition(data.isConditionUsed);
-        //setImage(data.image);
+        setBookImage(data.bookImage);
       } catch (error) {
         console.error('Error loading book:', error);
       }
@@ -67,10 +67,10 @@ const EditBookScreen = () => {
         age_limit: parseInt(ageLimit),
         description: description,
         isConditionUsed: condition,
-        // image: image,
+        //bookImage: bookImage,
       };
       console.log('-----------------------------------Updated Book Data:', updatedBookData);
-      const response = await updateBook(itemId, updatedBookData);
+      const response = await updateBook(itemId, updatedBookData, bookImage);
       console.log('Updated Book Data:', response);
       if (response) {
         Alert.alert('Success', 'Book updated successfully!');
@@ -82,13 +82,13 @@ const EditBookScreen = () => {
         setAgeLimit(0);
         setDescription('');
         setCondition(false);
-
+        setBookImage('');
 
       } else {
         Alert.alert('Error', 'Failed to update book');
       }
 
-      navigation.navigate('TabNavigator');
+      navigation.navigate('BookScreen', {bookId: itemId})
     } catch (error) {
       console.error('Error updating book:', error);
     }
@@ -114,7 +114,7 @@ const EditBookScreen = () => {
       cropperCircleOverlay: true,
     })
       .then(selected => {
-        setImage(selected.path);
+        setBookImage(selected.path);
       })
       .catch(err => {
         console.log('Image pick cancelled or error:', err);
@@ -126,7 +126,7 @@ const EditBookScreen = () => {
       <Text style={styles.title}>Edit details</Text>
 
       <View style={styles.imageContainer}>
-        <ImageBackground source={{uri: image}} style={styles.image}>
+        <ImageBackground source={{uri: bookImage}} style={styles.image}>
           <View style={styles.imageOverlay}>
             <Icon
               name="camera"
@@ -137,45 +137,46 @@ const EditBookScreen = () => {
           </View>
         </ImageBackground>
       </View>
-      <ScrollView>
+      <ScrollView >
+        <View style={styles.container}>
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="ISBN"
           value={isbn?.toString() ?? ''}
           onChangeText={setIsbn}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="Name"
           value={name}
           onChangeText={setName}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="Author"
           value={author}
           onChangeText={setAuthor}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="Category"
           value={category}
           onChangeText={setCategory}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="Price"
           value={price?.toString() ?? ''}
           onChangeText={setPrice}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="Age Limit"
           value={ageLimit?.toString() ?? ''}
           onChangeText={setAgeLimit}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputBox}
           placeholder="Description"
           value={description}
           onChangeText={setDescription}
@@ -201,7 +202,8 @@ const EditBookScreen = () => {
               <Text style={styles.radioText}>No</Text>
             </TouchableOpacity>
           </View>
-        </View>
+          </View>
+          </View>
       </ScrollView>
       <CustomButton title="Update Book" onPress={handleUpdateBook} />
     </View>

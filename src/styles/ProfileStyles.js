@@ -7,6 +7,13 @@ const ProfileStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
   image: {
     width: 160,
     height: 160, 

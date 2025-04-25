@@ -108,6 +108,7 @@ const EditProfileScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Edit Profile</Text>
       <View style={styles.imageContainer}>
         <TouchableOpacity onPress={handleImagePick} style={styles.imageWrapper}>
           <Image source={{uri: profileImage}} style={styles.profileImage} />

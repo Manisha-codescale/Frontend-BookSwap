@@ -8,6 +8,13 @@ const EditProfileStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
   imageContainer: {
     position: 'relative',
     marginBottom: 30,
