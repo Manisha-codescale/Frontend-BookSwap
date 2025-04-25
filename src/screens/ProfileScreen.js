@@ -38,29 +38,32 @@ const ProfileScreen = () => {
   }, [uid]);
 
   const onLogout = async () => {
-    Alert.alert(
-      'Log Out',
-      'Are you sure you want to log out?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Logout cancelled'),
-          style: 'cancel',
-        },
-        {
-          text: 'Yes',
-          onPress: () => {
-            auth()
-              .signOut()
-              .then(() => {
-                console.log('User signed out!');
-                navigation.navigate('SignInScreen');
-              });
+    //setTimeout(() => {
+      Alert.alert(
+        'Log Out',
+        'Are you sure you want to log out?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Logout cancelled'),
+            style: 'cancel',
           },
-        },
-      ],
-      {cancelable: false},
-    );
+          {
+            text: 'Yes',
+            onPress: () => {
+              auth()
+                .signOut()
+                .then(() => {
+                  console.log('User signed out!');
+                  navigation.navigate('SignInScreen');
+                })
+                .catch(error => console.error('Logout error:', error));
+            },
+          },
+        ],
+        {cancelable: false},
+      );
+   // }, 100);
   };
 
   if (loading) {
@@ -82,7 +85,6 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Profile</Text>
       <Image
         source={{
           uri:

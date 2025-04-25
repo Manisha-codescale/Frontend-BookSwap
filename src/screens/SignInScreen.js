@@ -142,14 +142,14 @@ const SignInScreen = () => {
         <Text style={styles.signInText}>Sign Up</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.googleContent} onPress={onGoogleButtonPress} disabled={isInProgress}>
+      {/* <TouchableOpacity style={styles.googleContent} onPress={onGoogleButtonPress} disabled={isInProgress}>
         <View style={styles.rowView}>
           <Image source={require('../assets/googleLogo.png')} style={styles.googleLogo} />
           <Text style={styles.signInText}>
             {isInProgress ? 'Signing in...' : 'Sign in with Google'}
           </Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

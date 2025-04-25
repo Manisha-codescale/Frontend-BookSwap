@@ -1,87 +1,82 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   FlatList,
-  StyleSheet,
   TouchableOpacity,
   Image,
   ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
-import {useFocusEffect} from '@react-navigation/native';
-import {UserContext} from '../context/UserContext';
+import { useFocusEffect } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import styles from '../styles/ChatRoomSTyles';
+import styles from '../styles/ChatRoomStyles';
+import { BASEURL } from '@env';
 
-const ChatRoomsScreen = ({navigation, route}) => {
+const ChatRoomsScreen = ({ navigation }) => {
   const [chatRooms, setChatRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const currentUser = auth().currentUser;
-  const currentUserId = currentUser?.uid;
 
+  const currentUserId = auth().currentUser?.uid;
+  //const apiURL = `${BASEURL}/api/chatrooms/${currentUserId}/rooms`;
+
+  // Fetch chat rooms when the screen comes into focus
+  const fetchChatRooms = React.useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${BASEURL}/api/chatrooms/${currentUserId}/rooms`);
+      setChatRooms(response.data);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading chat rooms:', err);
+      setError('Failed to load chat rooms');
+    } finally {
+      setLoading(false);
+    }
+  }, [currentUserId]);
+  
   useFocusEffect(
     React.useCallback(() => {
-      const fetchRooms = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get(
-            `http://10.0.2.2:3000/api/chatrooms/${currentUserId}/rooms`,
-          );
-          setChatRooms(response.data);
-          setError(null);
-        } catch (err) {
-          console.error('Error fetching chat rooms:', err);
-          setError('Failed to load chat rooms');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchRooms();
+      fetchChatRooms();
       return () => {};
-    }, [currentUserId]),
+    }, [fetchChatRooms])
   );
+  
 
-  const formatTimestamp = timestamp => {
+  const formatTimestamp = (timestamp) => {
     if (!timestamp) return '';
-
     const date = new Date(timestamp);
     const now = new Date();
 
     if (date.toDateString() === now.toDateString()) {
-      return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else if (date.getFullYear() === now.getFullYear()) {
+      return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
     }
-
-    if (date.getFullYear() === now.getFullYear()) {
-      return date.toLocaleDateString([], {month: 'short', day: 'numeric'});
-    }
-
     return date.toLocaleDateString();
   };
 
-  const navigateToChat = (roomId, otherUserId, otherUserName) => {
+  const openChatRoom = (roomId, userId, userName) => {
     navigation.navigate('ThreadScreen', {
       buyerId: currentUserId,
-      sellerId: otherUserId,
-      title: otherUserName,
+      sellerId: userId,
+      title: userName,
     });
   };
 
-  const renderItem = ({item}) => (
+  const renderChatRoom = ({ item }) => (
     <TouchableOpacity
       style={styles.roomItem}
-      onPress={() =>
-        navigateToChat(item.roomId, item.otherUserId, item.otherUserName)
-      }>
+      onPress={() => openChatRoom(item.roomId, item.otherUserId, item.otherUserName)}
+    >
       <View style={styles.avatarContainer}>
         {item.otherUserImage ? (
-          <Image source={{uri: item.otherUserImage}} style={styles.avatar} />
+          <Image source={{ uri: item.otherUserImage }} style={styles.avatar} />
         ) : (
           <View style={[styles.avatar, styles.defaultAvatar]}>
             <Text style={styles.avatarText}>
-              {item.otherUserName.charAt(0).toUpperCase()}
+              {item.otherUserName?.[0]?.toUpperCase()}
             </Text>
           </View>
         )}
@@ -90,11 +85,8 @@ const ChatRoomsScreen = ({navigation, route}) => {
       <View style={styles.contentContainer}>
         <View style={styles.headerRow}>
           <Text style={styles.userName}>{item.otherUserName}</Text>
-          <Text style={styles.timestamp}>
-            {formatTimestamp(item.timestamp)}
-          </Text>
+          <Text style={styles.timestamp}>{formatTimestamp(item.timestamp)}</Text>
         </View>
-
         <Text style={styles.lastMessage} numberOfLines={1}>
           {item.lastMessage}
         </Text>
@@ -129,22 +121,18 @@ const ChatRoomsScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      {/* title */}
       <Text style={styles.title}>Chat</Text>
-    <View style={styles.container}>
-      
       <FlatList
         data={chatRooms}
-        keyExtractor={item => item.roomId}
-        renderItem={renderItem}
+        keyExtractor={(item) => item.roomId}
+        renderItem={renderChatRoom}
         contentContainerStyle={chatRooms.length === 0 ? styles.emptyList : null}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No conversations yet</Text>
           </View>
         }
-        />
-        </View>
+      />
     </View>
   );
 };
