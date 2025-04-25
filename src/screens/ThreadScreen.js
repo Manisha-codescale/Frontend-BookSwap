@@ -10,8 +10,9 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import io from 'socket.io-client';
 import styles from '../styles/ThreadStyles';
+import {BASEURL} from '@env';
 
-const socket = io('http://10.0.2.2:5000');
+const socket = io(BASEURL);
 
 const ThreadScreen = ({route}) => {
   const {buyerId, sellerId} = route.params;
