@@ -17,11 +17,12 @@ const ChatRoomStyles = StyleSheet.create({
       padding: 20,
     },
     title: {
-        fontSize: 50,
+        fontSize: 26,
         fontWeight: 'bold',
         color: '#007aff',
         textAlign: 'left',
-        marginVertical: 20,
+      marginVertical: 20,
+        paddingHorizontal: 20,
       },
     errorText: {
       fontSize: 16,

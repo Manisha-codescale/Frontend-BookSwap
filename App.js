@@ -71,6 +71,7 @@ const App = () => {
         <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{headerShown: false}} />
           <Stack.Screen name="ThreadScreen" component={ThreadScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ChatRoomsScreen" component={ChatRoomsScreen} option={{ headerShown: false }} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
       </Stack.Navigator>
       </NavigationContainer>
       </UserProvider>
