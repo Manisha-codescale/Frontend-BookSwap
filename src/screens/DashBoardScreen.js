@@ -152,22 +152,35 @@ const DashBoardScreen = () => {
         renderItem={({item}) => (
           <TouchableOpacity
             style={styles.itemContainer}
-            // onPress={() => navigation.navigate('BookScreen')}
             onPress={() => navigation.navigate('BookScreen', {bookId: item._id})}
-            >
-            {/* <Image source={{uri: item.url}} style={styles.image} /> */}
+          >
+            <Image source={{uri: item.bookImage}} style={styles.image} />
             <View style={styles.detailsContainer}>
+            
               <Text style={styles.name}>{item.name}</Text>
               <Text style={styles.text}>Author: {item.auther}</Text>
               <Text style={styles.text}>ISBN: {item.ISBN}</Text>
               <Text style={styles.price}>Price: {item.price}</Text>
               <View style={styles.conditionContainer}>
-                <View
+              <View
+                style={[
+                  styles.conditionContainer,
+                  {
+                    backgroundColor: item.isConditionUsed
+                      ? '#cce5ff'
+                      : '#d4edda',
+                  },
+                ]}>
+                <Text
                   style={[
-                    styles.circle,
-                    {backgroundColor: item.condition ? '#28a745' : '#007bff'},
-                  ]}
-                />
+                    styles.conditionText,
+                    {
+                      color: item.isConditionUsed ? '#004085' : '#155724',
+                    },
+                  ]}>
+                  {item.isConditionUsed ? 'Used' : 'New'}
+                </Text>
+              </View>
               </View>
             </View>
           </TouchableOpacity>

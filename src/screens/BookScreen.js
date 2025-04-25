@@ -71,7 +71,7 @@ const BookScreen = () => {
         <Text style={styles.isbn}>ISBN : {book.ISBN}</Text>
         <Text style={styles.author}>Author : {book.auther}</Text>
 
-        <Image source={{uri: book.image}} style={styles.image} />
+        <Image source={{uri: book.bookImage}} style={styles.image} />
 
         <View style={styles.infoBox}>
           <Text style={styles.label}>Category </Text>
