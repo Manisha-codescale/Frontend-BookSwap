@@ -8,6 +8,7 @@ import {
   MaterialIcons,
   FlatList,
   SafeAreaView,
+  RefreshControl
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,22 +19,37 @@ import {AddedBook} from '../api/bookRoutes';
 const AddedBooksScreen = () => {
   const navigation = useNavigation();
   const [books, setBooks] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 2000);
+  // }, []);
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await loadBooks(); 
+    setRefreshing(false);
+  }, []);
+  
+
+  const loadBooks = async () => {
+    try {
+      const data = await AddedBook();
+      setBooks(data);
+    } catch (error) {
+      console.error('Error loading books:', error);
+    }
+  };
 
   useEffect(() => {
-    const loadBooks = async () => {
-      try {
-        const data = await AddedBook();
-        setBooks(data);
-      } catch (error) {
-        console.error('Error loading books:', error);
-      }
-    };
 
     loadBooks();
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} >
       <Text style={styles.title}>My Books</Text>
 
       <FlatList
@@ -88,6 +104,9 @@ const AddedBooksScreen = () => {
            
           </TouchableOpacity>
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
 
       <TouchableOpacity

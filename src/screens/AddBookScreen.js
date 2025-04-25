@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   ScrollView,
   Alert,
   TouchableOpacity,
@@ -12,8 +11,10 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import {addBook} from '../api/bookRoutes';
 import styles from '../styles/AddBookStyles';
+import {useNavigation} from '@react-navigation/native';
 
 const AddBookScreen = () => {
+  const navigation = useNavigation();
   const [bookData, setBookData] = useState({
     ISBN: '',
     name: '',
@@ -23,43 +24,56 @@ const AddBookScreen = () => {
     age_limit: '',
     description: '',
     isConditionUsed: false,
-    image: null,
   });
+  
+  const [bookImage, setBookImage] = useState(null);
 
   const handleChange = (key, value) => {
     setBookData({...bookData, [key]: value});
   };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 4],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      handleChange('image', result.assets[0].uri);
-    }
+  
+  const pickImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      cropperCircleOverlay: true,
+    })
+      .then(selected => {
+        console.log('Selected image:', selected);
+        setBookImage(selected);
+      })
+      .catch(err => {
+        console.log('Image pick cancelled or error:', err);
+      });
   };
 
   const handleSubmit = async () => {
     try {
-      const newBookData = {
-        ISBN: bookData.ISBN,
-        name: bookData.name,
-        auther: bookData.auther,
-        category: bookData.category,
-        price: parseFloat(bookData.price),
-        age_limit: parseInt(bookData.age_limit),
-        description: bookData.description,
-        isConditionUsed: bookData.isConditionUsed,
-        image: bookData.image,
-      };
+      const formData = new FormData();
+      
+      Object.keys(bookData).forEach(key => {
+        if (key === 'price') {
+          formData.append(key, parseFloat(bookData[key]));
+        } else if (key === 'age_limit') {
+          formData.append(key, parseInt(bookData[key]));
+        } else {
+          formData.append(key, bookData[key]);
+        }
+      });
+      
+      if (bookImage) {
+        formData.append('bookImage', {
+          uri: bookImage.path,
+          type: bookImage.mime,
+          name: bookImage.path.split('/').pop()
+        });
+      }
 
-      const response = await addBook(newBookData);
+      const response = await addBook(formData);
       if (response) {
         Alert.alert('Success', 'Book added successfully!');
+        
         setBookData({
           ISBN: '',
           name: '',
@@ -69,13 +83,19 @@ const AddBookScreen = () => {
           age_limit: '',
           description: '',
           isConditionUsed: false,
-          image: null,
         });
+        setBookImage(null);
+        
+        if (response.book && response.book._id) {
+          navigation.navigate('TabNavigator', {
+            screen: 'AddedBooksScreen',
+            });
+        }
       } else {
         Alert.alert('Error', 'Failed to add book');
       }
     } catch (err) {
-      console.error(err);
+      console.error('Submit error:', err);
       Alert.alert('Error', 'An error occurred while adding the book');
     }
   };
@@ -85,8 +105,8 @@ const AddBookScreen = () => {
       <Text style={styles.title}>Add New Book</Text>
 
       <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-        {bookData.image ? (
-          <Image source={{uri: bookData.image}} style={styles.imagePreview} />
+        {bookImage ? (
+          <Image source={{uri: bookImage.path}} style={styles.imagePreview} />
         ) : (
           <Text style={styles.imagePickerText}>Select Book Cover</Text>
         )}

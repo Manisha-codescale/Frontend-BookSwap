@@ -88,7 +88,9 @@ const EditBookScreen = () => {
         Alert.alert('Error', 'Failed to update book');
       }
 
-      navigation.navigate('BookScreen', {bookId: itemId})
+      navigation.navigate('TabNavigator', {
+        screen: 'AddedBooksScreen',
+        });
     } catch (error) {
       console.error('Error updating book:', error);
     }

@@ -50,10 +50,8 @@ export const getBooks = async () => {
     try {
       const token = await getFirebaseToken();
       
-      // Create FormData object to handle file uploads
       const formData = new FormData();
       
-      // Add all updatedData fields to the formData
       Object.keys(updatedData).forEach(key => {
         formData.append(key, updatedData[key]);
       });
@@ -69,7 +67,7 @@ export const getBooks = async () => {
       const bookResponse = await axiosBookInstance.put(`/updateBook/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data', // Important for file uploads
+          'Content-Type': 'multipart/form-data', 
         },
       });
       
@@ -77,7 +75,7 @@ export const getBooks = async () => {
       return bookResponse.data;
     } catch (error) {
       console.log('error:', error.response?.data?.error || error.message);
-      throw error; // Re-throw to handle in the calling function
+      throw error; 
     }
   }
   
@@ -132,21 +130,29 @@ export const getBooks = async () => {
 //     console.log('error :', error.bookResponse?.data?.error);
 //   }
 // };
-export const addBook = async (newBookData) => {
+export const axiosCreateBookInstance = axios.create({
+  baseURL: `${BASEURL}/api/book`,
+});
+
+export const addBook = async (formData) => {
   try {
     const token = await getFirebaseToken();
-    console.log(token);
-    const bookResponse = await axiosBookInstance.post(`/addBook/`, newBookData, {
+    console.log('Sending with token:', token);
+    
+    const bookResponse = await axiosCreateBookInstance.post('/addbook', formData, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
       },
     });
-    console.log('bookResponse :', bookResponse.data);
+    
+    console.log('Book added successfully:', bookResponse.data);
     return bookResponse.data;
   } catch (error) {
-    console.log('error :', error.bookResponse?.data?.error);
+    console.error('Error adding book:', error.response?.data || error.message);
+    return null;
   }
-}
+};
 
 export const AddedBook = async () => {
   try {

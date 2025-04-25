@@ -18,6 +18,7 @@ import AddBookScreen from './src/screens/AddBookScreen';
 import ThreadScreen from './src/screens/ThreadScreen';
 import { UserProvider } from './src/context/UserContext';
 import ChatRoomsScreen from './src/screens/ChatRoomsScreen';
+//import AddedBookScreen from './src/screens/AddedBookScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -68,7 +69,7 @@ const App = () => {
         <Stack.Screen name="BookScreen" component={BookScreen} options={{headerShown: false}} />
         <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{headerShown: false}} />
         <Stack.Screen name="EditBookScreen" component={EditBookScreen} options={{headerShown: false}} />
-        <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{headerShown: false}} />
+          <Stack.Screen name="AddBookScreen" component={AddBookScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ThreadScreen" component={ThreadScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ChatRoomsScreen" component={ChatRoomsScreen} option={{ headerShown: false }} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />

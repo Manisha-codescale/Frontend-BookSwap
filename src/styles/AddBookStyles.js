@@ -18,6 +18,10 @@ const AddBookStyles = StyleSheet.create({
     padding: 12,
     marginBottom: 15,
   },
+  imageContainer: {
+    position: 'relative',
+    marginBottom: 30,
+  },
   textArea: {
     borderWidth: 1,
     borderColor: '#ccc',
