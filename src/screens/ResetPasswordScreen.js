@@ -2,9 +2,11 @@ import React from 'react';
 import {View, Alert, TouchableOpacity, ScrollView, Text, TextInput} from 'react-native';
 import styles from '../styles/ResetPasswordStyles.js';
 import auth from "@react-native-firebase/auth"
+import { useNavigation } from '@react-navigation/native';
 
 const ResetPasswordScreen = () => {
   const [email, setEmail] = React.useState('');
+  const navigation = useNavigation();
 
   const forgetPassword = () => {
     if (email === '') {
@@ -16,6 +18,7 @@ const ResetPasswordScreen = () => {
       .sendPasswordResetEmail(email)
       .then(() => {
         Alert.alert('Password reset email sent!');
+        navigation.navigate('SignInScreen');
       })
       .catch(error => {
         Alert.alert(error.message);
