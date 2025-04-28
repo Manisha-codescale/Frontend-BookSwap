@@ -24,6 +24,7 @@ import {setUid, clearUid, setToken, clearToken} from './src/app/userSlice';
 import auth from '@react-native-firebase/auth';
 import {Provider} from 'react-redux';
 import {store} from './src/app/store';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,7 +37,6 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(async user => {
-
       if (user) {
         dispatch(setUid(user.uid));
         const token = await user.getIdToken(true);
@@ -53,7 +53,22 @@ const App = () => {
 
   function TabNavigator() {
     return (
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+            if (route.name === 'DashBoardScreen') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'AddedBooksScreen') {
+              iconName = focused ? 'book' : 'book-outline';
+            } else if (route.name === 'ChatRoomsScreen') {
+              iconName = focused ? 'chat' : 'chat-outline';
+            } else if (route.name === 'ProfileScreen') {
+              iconName = focused ? 'account' : 'account-outline';
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}>
         <Tab.Screen
           name="DashBoardScreen"
           component={DashBoardScreen}
@@ -80,70 +95,70 @@ const App = () => {
 
   return (
     // <UserProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="SignInScreen">
-          <Stack.Screen
-            name="SignInScreen"
-            component={SignInScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="SignUpScreen"
-            component={SignUpScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="TabNavigator"
-            component={TabNavigator}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="EditProfileScreen"
-            component={EditProfileScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="BookScreen"
-            component={BookScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ChangePasswordScreen"
-            component={ChangePasswordScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="EditBookScreen"
-            component={EditBookScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="AddBookScreen"
-            component={AddBookScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ThreadScreen"
-            component={ThreadScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ChatRoomsScreen"
-            component={ChatRoomsScreen}
-            option={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ProfileScreen"
-            component={ProfileScreen}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignInScreen">
+        <Stack.Screen
+          name="SignInScreen"
+          component={SignInScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ResetPasswordScreen"
+          component={ResetPasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TabNavigator"
+          component={TabNavigator}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EditProfileScreen"
+          component={EditProfileScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BookScreen"
+          component={BookScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChangePasswordScreen"
+          component={ChangePasswordScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EditBookScreen"
+          component={EditBookScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddBookScreen"
+          component={AddBookScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ThreadScreen"
+          component={ThreadScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChatRoomsScreen"
+          component={ChatRoomsScreen}
+          option={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
     // </UserProvider>
   );
 };
