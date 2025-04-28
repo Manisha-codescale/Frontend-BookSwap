@@ -12,9 +12,11 @@ import {useNavigation} from '@react-navigation/native';
 import {UserContext} from '../context/UserContext';
 import {getUserById} from '../api/userRoutes';
 import auth from '@react-native-firebase/auth';
+import {useSelector} from 'react-redux';
 
 const ProfileScreen = () => {
-  const {uid} = useContext(UserContext);
+ // const {uid} = useContext(UserContext);
+  const uid = useSelector(state => state.user.uid);
   const navigation = useNavigation();
 
   const [user, setUser] = useState(null);
