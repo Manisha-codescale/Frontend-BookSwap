@@ -16,9 +16,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {UserContext} from '../context/UserContext';
 import {getUserById, updateUser} from '../api/userRoutes';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const EditProfileScreen = () => {
-  const {uid} = useContext(UserContext);
+  //const {uid} = useContext(UserContext);
+  const uid = useSelector(state => state.user.uid);
   const navigation = useNavigation();
 
   const [user, setUser] = useState(null);
@@ -28,6 +30,7 @@ const EditProfileScreen = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
+    console.log('User ID:', uid);
     const fetchUser = async () => {
       try {
         const fetchedUser = await getUserById(uid);

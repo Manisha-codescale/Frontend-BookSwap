@@ -12,9 +12,11 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {addBook} from '../api/bookRoutes';
 import styles from '../styles/AddBookStyles';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const AddBookScreen = () => {
   const navigation = useNavigation();
+  const token = useSelector(state => state.user.token);
   const [bookData, setBookData] = useState({
     ISBN: '',
     name: '',
@@ -70,7 +72,7 @@ const AddBookScreen = () => {
         });
       }
 
-      const response = await addBook(formData);
+      const response = await addBook(formData,token);
       if (response) {
         Alert.alert('Success', 'Book added successfully!');
         

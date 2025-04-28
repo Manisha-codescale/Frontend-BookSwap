@@ -17,10 +17,13 @@ import styles from '../styles/EditBookStyles';
 import {getBookById} from '../api/bookRoutes';
 import {useRoute} from '@react-navigation/native';
 import {updateBook} from '../api/bookRoutes';
+import {useSelector} from 'react-redux';
 
 const EditBookScreen = () => {
   const route = useRoute();
   const {itemId} = route.params;
+  const token = useSelector(state => state.user.token);
+
   console.log('-----------Book ID:', itemId);
 
   const navigation = useNavigation();
@@ -70,7 +73,7 @@ const EditBookScreen = () => {
         //bookImage: bookImage,
       };
       console.log('-----------------------------------Updated Book Data:', updatedBookData);
-      const response = await updateBook(itemId, updatedBookData, bookImage);
+      const response = await updateBook(itemId, updatedBookData, bookImage,token);
       console.log('Updated Book Data:', response);
       if (response) {
         Alert.alert('Success', 'Book updated successfully!');

@@ -16,12 +16,14 @@ import {useNavigation} from '@react-navigation/native';
 import styles from '../styles/SignInStyles.js';
 import { addUser } from '../api/userRoutes';
 import {UserContext} from '../context/UserContext';
+import { useSelector } from 'react-redux';
 
 GoogleSignin.configure({
   webClientId: GOOGLE_WEB_CLIENT_ID,
 });
 
 const SignInScreen = () => {
+  const uid = useSelector(state => state.user.uid);
   const [firebaseUid, setFirebaseUid] = useState(null);
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
