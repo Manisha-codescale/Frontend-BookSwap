@@ -128,7 +128,7 @@ const SignInScreen = () => {
         onChangeText={setPassword}
       />
 
-      <Pressable onPress={forgotPassword} style={({pressed}) => [styles.forgotPw, pressed && styles.pressed]}>
+      <Pressable onPress={()=>navigation.navigate('ResetPasswordScreen')} style={({pressed}) => [styles.forgotPw, pressed && styles.pressed]}>
       <Text style={styles.forgotPwText}>
           {
             '\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003'
