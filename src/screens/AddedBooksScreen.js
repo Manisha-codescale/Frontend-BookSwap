@@ -15,11 +15,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from '../styles/AddedBooksStyles';
 import {createStaticNavigation, useNavigation} from '@react-navigation/native';
 import {AddedBook} from '../api/bookRoutes';
+import {useSelector} from 'react-redux';
 
 const AddedBooksScreen = () => {
   const navigation = useNavigation();
   const [books, setBooks] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
+  const token = useSelector(state => state.user.token);
 
   // const onRefresh = React.useCallback(() => {
   //   setRefreshing(true);
@@ -36,7 +38,7 @@ const AddedBooksScreen = () => {
 
   const loadBooks = async () => {
     try {
-      const data = await AddedBook();
+      const data = await AddedBook(token);
       setBooks(data);
     } catch (error) {
       console.error('Error loading books:', error);

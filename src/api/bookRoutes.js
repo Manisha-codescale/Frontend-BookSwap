@@ -2,6 +2,7 @@ import axios from 'axios';
 import {BASEURL} from '@env';
 //import {BASEURL} from './apis';
 import { getFirebaseToken } from '../utils/firebaseTokenHelper';
+import {useSelector} from 'react-redux';
 
 export const axiosBookInstance = axios.create({
   baseURL: `${BASEURL}/api/book`,
@@ -46,10 +47,11 @@ export const getBooks = async () => {
   }
 } */
 
-  export const updateBook = async (id, updatedData, bookImage) => {
+  export const updateBook = async (id, updatedData, bookImage,token) => {
     try {
-      const token = await getFirebaseToken();
-      
+      //const token = await getFirebaseToken();
+      // const token = useSelector(state => state.user.token);
+      console.log('---------------------------------Sending with token:', token);
       const formData = new FormData();
       
       Object.keys(updatedData).forEach(key => {
@@ -134,10 +136,11 @@ export const axiosCreateBookInstance = axios.create({
   baseURL: `${BASEURL}/api/book`,
 });
 
-export const addBook = async (formData) => {
+export const addBook = async (formData,token) => {
   try {
-    const token = await getFirebaseToken();
-    console.log('Sending with token:', token);
+    //const token = await getFirebaseToken();
+    //const token = useSelector(state => state.user.token);
+    console.log('----------------------------Sending with token:', token);
     
     const bookResponse = await axiosCreateBookInstance.post('/addbook', formData, {
       headers: {
@@ -154,16 +157,17 @@ export const addBook = async (formData) => {
   }
 };
 
-export const AddedBook = async () => {
+export const AddedBook = async (token) => {
   try {
-    const token = await getFirebaseToken();
-    console.log(token);
+    //const token = await getFirebaseToken();
+    //const token = useSelector(state => state.user.token);
+    console.log('----------------------------Sending with token:', token);
     const bookResponse = await axiosBookInstance.get(`/listAddedbooks/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('bookResponse :', bookResponse.data);
+    console.log('----------------------------------AddedbookResponse :', bookResponse.data);
     return bookResponse.data;
   }catch(error){
     console.log('error :', error.bookResponse?.data?.error);

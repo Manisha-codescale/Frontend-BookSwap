@@ -20,7 +20,7 @@ import {UserProvider} from './src/context/UserContext';
 import ChatRoomsScreen from './src/screens/ChatRoomsScreen';
 //import AddedBookScreen from './src/screens/AddedBookScreen';
 import {useDispatch} from 'react-redux';
-import {setUid, clearUid} from './src/app/userSlice';
+import {setUid, clearUid, setToken, clearToken} from './src/app/userSlice';
 import auth from '@react-native-firebase/auth';
 import {Provider} from 'react-redux';
 import {store} from './src/app/store';
@@ -35,11 +35,16 @@ const App = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(user => {
+    const unsubscribe = auth().onAuthStateChanged(async user => {
+
       if (user) {
         dispatch(setUid(user.uid));
+        const token = await user.getIdToken(true);
+        console.log('Firebase Token:', token);
+        dispatch(setToken(token));
       } else {
         dispatch(clearUid());
+        dispatch(clearToken());
       }
     });
 

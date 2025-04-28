@@ -10,8 +10,15 @@ const userSlice = createSlice({
         clearUid: (state) => {
             state.uid = null;
         },
+        setToken : (state, action) => {
+            state.token = action.payload;
+            console.log('Token set in Redux:', state.token);
+        },
+        clearToken : (state) => {
+            state.token = null;
+        },
     }
 })
 
-export const {setUid, clearUid} = userSlice.actions;
+export const {setUid, clearUid, setToken, clearToken} = userSlice.actions;
 export default userSlice.reducer;
